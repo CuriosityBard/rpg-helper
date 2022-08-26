@@ -1,6 +1,8 @@
 ### TODO
 - Build die-roller 
-    - Include option for removing lowest or highest roll in a multi-die roll 
+    X Include option for removing lowest or highest roll in a multi-die roll
+    - Finish options for roller 
+    - Make the roller pretty  
 - Build character sheet 
     - Base system to store everything 
     - Customise to multiple different RPG systems 

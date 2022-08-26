@@ -22,7 +22,7 @@ function dropLowest(n, arr) {
     let returnArr = [...arr];
     for (let i = 0; i < n; i++) {
         // find lowest value in array:
-        lowest = returnArr.reduce((final, current) => {
+        let lowest = returnArr.reduce((final, current) => {
             if (current > final) {
                 return final;
             }
@@ -46,7 +46,7 @@ function dropHighest(n, arr) {
     let returnArr = [...arr];
     for (let i = 0; i < n; i++) {
         // find highest value in array:
-        highest = returnArr.reduce((final, current) => {
+        let highest = returnArr.reduce((final, current) => {
             if (current < final) {
                 return final;
             }
