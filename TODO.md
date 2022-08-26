@@ -1,0 +1,15 @@
+### TODO
+- Build die-roller 
+    - Include option for removing lowest or highest roll in a multi-die roll 
+- Build character sheet 
+    - Base system to store everything 
+    - Customise to multiple different RPG systems 
+    - Link in the die roller for rolled stats 
+    - Incremental systems where applicable (i.e. ability scores can be incremented or rolled)
+    - Ability to add custom fields to character sheets 
+    - Folding abilities - show name, click to show details
+    - Guided or all-at-once character creation
+    - Image uploads for character portrait etc. 
+- Print & Web stylesheets for character sheet 
+- Export character sheet as .json
+- Tracking HP, Spell Slots, etc. 
