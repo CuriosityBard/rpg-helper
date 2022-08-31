@@ -17,6 +17,7 @@ export function AddClass(props) {
     // add new class to total classes 
     function AddNewClass() {
         props.addToList(classToAdd.name, classToAdd.level);
+        setClassToAdd({name: "", level: 0});
     }
 
     // immediately update class info
