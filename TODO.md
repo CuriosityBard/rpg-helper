@@ -1,10 +1,13 @@
 ### TODO
 - Build die-roller 
     X Include option for removing lowest or highest roll in a multi-die roll
-    - Finish options for roller 
+    X Finish options for roller 
     - Make the roller pretty  
 - Build character sheet 
     - Base system to store everything 
+    - class system - list of classes and levels
+        X add individual classes
+        - remove individual classes
     - Customise to multiple different RPG systems 
     - Link in the die roller for rolled stats 
     - Incremental systems where applicable (i.e. ability scores can be incremented or rolled)
