@@ -1,10 +1,18 @@
-import { DiceRoller } from './die-roller/DiceRoller.js';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Layout } from './pages/Layout.js';
+import { DicePage } from './pages/DicePage.js';
+import { Home } from './pages/Home.js';
 
 function App() {
   return (
-    <div className="App">
-      <DiceRoller />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="dice" element={<DicePage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

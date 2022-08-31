@@ -10,7 +10,7 @@ export function DiceRoller() {
     const [howManyDice, setHowManyDice] = useState(0);
     const [howManySides, setHowManySides] = useState(0);
     const [modifier, setModifier] = useState(0);
-    // dice removed from the roll
+    // input: dice removed from the roll
     const [removedDice, setRemovedDice] = useState(0);     // -1 means remove lowest, 1 means remove highest
     const [numDiceToRemove, setNumDiceToRemove] = useState(0);
 
