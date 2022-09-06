@@ -3,6 +3,7 @@ import { LineText } from "./inputs/LineText.js";
 import { Number } from "./inputs/Number.js";
 import { AddClass } from "./inputs/AddClass.js";
 import { ClassList } from "./outputs/ClassList.js";
+import { Ability } from "./misc-modules/Ability.js";
 
 export function DnD() {
     const [character, setCharacter] = useState({
@@ -13,7 +14,19 @@ export function DnD() {
         class: [],
         background: "",
         alignment: "",
+        abilities: {
+            str: 0,
+            dex: 0,
+            con: 0,
+            int: 0,
+            wis: 0,
+            cha: 0
+        }
     });
+
+    // ability scores and modifiers
+    const abilityScores = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
+    const abilityModifiers = [-5, -4, -4, -3, -3, -2, -2, -1, -1, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10];
 
     // generic change handlers
     function handleTextChange(event, section) {
@@ -24,6 +37,11 @@ export function DnD() {
     function handleIntegerChange(event, section) {
         let newChar = {...character};
         newChar[section] = parseInt(event.target.value);
+        setCharacter(newChar);
+    }
+    function handleAbilityChange(event, ability) {
+        let newChar = {...character};
+        newChar.abilities[ability] = parseInt(event.target.value);
         setCharacter(newChar);
     }
     // specific change handlers 
@@ -52,6 +70,14 @@ export function DnD() {
                 <AddClass addToList={addClassToList} />
                 <LineText inputName="background" inputLabel="Background" inputValue={character.background} inputOnChange={(e) => handleTextChange(e, "background")} />
                 <LineText inputName="alignment" inputLabel="Alignment" inputValue={character.alignment} inputOnChange={(e) => handleTextChange(e, "alignment")} />
+            </section>
+            <section id="abilities" className="sheet-section">
+                <Ability handleAbilityChange={(e) => handleAbilityChange(e, "str")} abilityVals={abilityScores} abilityMods={abilityModifiers} score={character.abilities.str} ability="Strength" abbr="str" />
+                <Ability handleAbilityChange={(e) => handleAbilityChange(e, "dex")} abilityVals={abilityScores} abilityMods={abilityModifiers} score={character.abilities.dex} ability="Dexterity" abbr="dex" />
+                <Ability handleAbilityChange={(e) => handleAbilityChange(e, "con")} abilityVals={abilityScores} abilityMods={abilityModifiers} score={character.abilities.con} ability="Constitution" abbr="con" />
+                <Ability handleAbilityChange={(e) => handleAbilityChange(e, "int")} abilityVals={abilityScores} abilityMods={abilityModifiers} score={character.abilities.int} ability="Intelligence" abbr="int" />
+                <Ability handleAbilityChange={(e) => handleAbilityChange(e, "wis")} abilityVals={abilityScores} abilityMods={abilityModifiers} score={character.abilities.wis} ability="Wisdom" abbr="wis" />
+                <Ability handleAbilityChange={(e) => handleAbilityChange(e, "cha")} abilityVals={abilityScores} abilityMods={abilityModifiers} score={character.abilities.cha} ability="Charisma" abbr="cha" />
             </section>
         </div>
     );

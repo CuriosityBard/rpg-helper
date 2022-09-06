@@ -18,3 +18,8 @@
 - Print & Web stylesheets for character sheet 
 - Export character sheet as .json
 - Tracking HP, Spell Slots, etc. 
+
+
+### NOTES 
+the automodifier function should have 2 parallel arrays, find index of value in one array to get modifier in other array.
+arrays are passed to <AutoModifier /> as props 
