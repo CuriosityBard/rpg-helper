@@ -58,8 +58,6 @@ export function DnD() {
         let newChar = {...character};
         let idx = newChar.class.findIndex((item) => item.class === className && item.level === classLevel);
 
-        console.log(newChar.class, idx, className, classLevel);
-
         if (newChar.class.length === 1) {
             newChar.class = [];
         } else if (newChar.class.length === 2) {
@@ -67,8 +65,6 @@ export function DnD() {
                 newChar.class = [newChar.class[1]];
             } else if (idx === 1) {
                 newChar.class = [newChar.class[0]];
-            } else {
-                console.log("Class list messed up");
             }
         } else {
             newChar.class = [...newChar.class.slice(0, idx), ...newChar.class.slice(idx + 1)];
