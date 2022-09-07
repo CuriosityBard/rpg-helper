@@ -10,7 +10,11 @@ export function AddClass(props) {
 
     function handleClassChange(event, aspect) {
         let newClass = {...classToAdd};
-        newClass[aspect] = event.target.value;
+        if (aspect === "level") {
+            newClass[aspect] = parseInt(event.target.value);
+        } else {
+            newClass[aspect] = event.target.value;
+        }
         setClassToAdd(newClass);
     }
     
