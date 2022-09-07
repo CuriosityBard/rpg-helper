@@ -54,6 +54,24 @@ export function DnD() {
         setCharacter(newChar);
     }
 
+    function removeClass(className, classLevel) {
+        let newChar = {...character};
+        let idx = newChar.class.indexOf([className, classLevel]);
+
+        if (newChar.class.length === 1) {
+            newChar.class = [];
+        } else if (newChar.class.length === 2) {
+            if (idx === 0) {
+                newChar.class = [newChar.class[1]];
+            } else {
+                newChar.class = [newChar.class[0]];
+            }
+        } else {
+            newChar.class = newChar.class.slice(0, idx) + newChar.class.slice(idx + 1);
+        }
+        setCharacter(newChar);        
+    }
+
     // update sheet immediately when character changes
     useEffect(() => {
         return;
@@ -66,7 +84,7 @@ export function DnD() {
                 <LineText inputName="player-name" inputLabel="Player Name" inputValue={character.playerName} inputOnChange={(e) => handleTextChange(e, "playerName")} />
                 <Number inputName="experience" inputLabel="Experience Points" inputValue={character.experience} inputOnChange={(e) => handleIntegerChange(e, "experience")} />
                 <LineText inputName="race" inputLabel="Race" inputValue={character.race} inputOnChange={(e) => handleTextChange(e, "race")} />
-                <ClassList classes={character.class} />
+                <ClassList classes={character.class} removeClass={removeClass} />
                 <AddClass addToList={addClassToList} />
                 <LineText inputName="background" inputLabel="Background" inputValue={character.background} inputOnChange={(e) => handleTextChange(e, "background")} />
                 <LineText inputName="alignment" inputLabel="Alignment" inputValue={character.alignment} inputOnChange={(e) => handleTextChange(e, "alignment")} />
