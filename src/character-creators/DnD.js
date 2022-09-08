@@ -5,7 +5,7 @@ import { AddClass } from "./inputs/AddClass.js";
 import { ClassList } from "./outputs/ClassList.js";
 import { Ability } from "./misc-modules/Ability.js";
 
-export function DnD() {
+export function DnD(props) {
     const [character, setCharacter] = useState({
         charName: "",
         playerName: "",
@@ -53,7 +53,6 @@ export function DnD() {
         });
         setCharacter(newChar);
     }
-
     function removeClass(className, classLevel) {
         let newChar = {...character};
         let idx = newChar.class.findIndex((item) => item.class === className && item.level === classLevel);
@@ -90,12 +89,15 @@ export function DnD() {
                 <LineText inputName="alignment" inputLabel="Alignment" inputValue={character.alignment} inputOnChange={(e) => handleTextChange(e, "alignment")} />
             </section>
             <section id="abilities" className="sheet-section">
-                <Ability handleAbilityChange={(e) => handleAbilityChange(e, "str")} abilityVals={abilityScores} abilityMods={abilityModifiers} score={character.abilities.str} ability="Strength" abbr="str" />
-                <Ability handleAbilityChange={(e) => handleAbilityChange(e, "dex")} abilityVals={abilityScores} abilityMods={abilityModifiers} score={character.abilities.dex} ability="Dexterity" abbr="dex" />
-                <Ability handleAbilityChange={(e) => handleAbilityChange(e, "con")} abilityVals={abilityScores} abilityMods={abilityModifiers} score={character.abilities.con} ability="Constitution" abbr="con" />
-                <Ability handleAbilityChange={(e) => handleAbilityChange(e, "int")} abilityVals={abilityScores} abilityMods={abilityModifiers} score={character.abilities.int} ability="Intelligence" abbr="int" />
-                <Ability handleAbilityChange={(e) => handleAbilityChange(e, "wis")} abilityVals={abilityScores} abilityMods={abilityModifiers} score={character.abilities.wis} ability="Wisdom" abbr="wis" />
-                <Ability handleAbilityChange={(e) => handleAbilityChange(e, "cha")} abilityVals={abilityScores} abilityMods={abilityModifiers} score={character.abilities.cha} ability="Charisma" abbr="cha" />
+                <Ability handleAbilityChange={(e) => handleAbilityChange(e, "str")} abilityVals={abilityScores} abilityMods={abilityModifiers} score={character.abilities.str} ability="Strength" abbr="str" getModifier={() => props.getModifier(character.abilities.str, abilityScores, abilityModifiers)} min={1} max={30} />
+                <Ability handleAbilityChange={(e) => handleAbilityChange(e, "dex")} abilityVals={abilityScores} abilityMods={abilityModifiers} score={character.abilities.dex} ability="Dexterity" abbr="dex" getModifier={() => props.getModifier(character.abilities.dex, abilityScores, abilityModifiers)} min={1} max={30} />
+                <Ability handleAbilityChange={(e) => handleAbilityChange(e, "con")} abilityVals={abilityScores} abilityMods={abilityModifiers} score={character.abilities.con} ability="Constitution" abbr="con" getModifier={() => props.getModifier(character.abilities.con, abilityScores, abilityModifiers)} min={1} max={30} />
+                <Ability handleAbilityChange={(e) => handleAbilityChange(e, "int")} abilityVals={abilityScores} abilityMods={abilityModifiers} score={character.abilities.int} ability="Intelligence" abbr="int" getModifier={() => props.getModifier(character.abilities.int, abilityScores, abilityModifiers)} min={1} max={30} />
+                <Ability handleAbilityChange={(e) => handleAbilityChange(e, "wis")} abilityVals={abilityScores} abilityMods={abilityModifiers} score={character.abilities.wis} ability="Wisdom" abbr="wis" getModifier={() => props.getModifier(character.abilities.wis, abilityScores, abilityModifiers)} min={1} max={30} />
+                <Ability handleAbilityChange={(e) => handleAbilityChange(e, "cha")} abilityVals={abilityScores} abilityMods={abilityModifiers} score={character.abilities.cha} ability="Charisma" abbr="cha" getModifier={() => props.getModifier(character.abilities.cha, abilityScores, abilityModifiers)} min={1} max={30} />
+            </section>
+            <section id="saving-throws" className="sheet-section">
+                
             </section>
         </div>
     );

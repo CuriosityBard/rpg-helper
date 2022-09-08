@@ -8,12 +8,17 @@ export function CharacterCreator() {
     function handleSystemChange(event) {
         setSystem(event.target.value);
     }
+
+    function getModifier(score, vals, mods) {
+        // vals and mods should be parallel arrays
+        return mods[vals.indexOf(score)];
+    }
     
     // select which character creator to use: 
     let whichCreator;
     switch(system) {
         case "dnd":
-            whichCreator = <DnD />;
+            whichCreator = <DnD getModifier={getModifier} />;
             break;
         default:
             whichCreator = <Exception />;
