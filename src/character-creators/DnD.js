@@ -4,6 +4,8 @@ import { Number } from "./inputs/Number.js";
 import { AddClass } from "./inputs/AddClass.js";
 import { ClassList } from "./outputs/ClassList.js";
 import { Ability } from "./misc-modules/Ability.js";
+import { AbilityPlusBonus } from "./misc-modules/AbilityPlusBonus.js";
+import { CanHaveProficiency } from "./misc-modules/CanHaveProficiency.js";
 
 export function DnD(props) {
     const [character, setCharacter] = useState({
@@ -14,13 +16,38 @@ export function DnD(props) {
         class: [],
         background: "",
         alignment: "",
-        abilities: {
+        abilityScores: {
             str: 0,
             dex: 0,
             con: 0,
             int: 0,
             wis: 0,
             cha: 0
+        },
+        abilityModifiers: {
+            str: 0,
+            dex: 0,
+            con: 0,
+            int: 0,
+            wis: 0,
+            cha: 0
+        },
+        proficiencyBonus: 0,
+        savingThrowBonus: {
+            str: 0,
+            dex: 0,
+            con: 0,
+            int: 0,
+            wis: 0,
+            cha: 0
+        },
+        savingThrowProficiency: {
+            str: false,
+            dex: false,
+            con: false,
+            int: false,
+            wis: false,
+            cha: false
         }
     });
 
@@ -39,12 +66,30 @@ export function DnD(props) {
         newChar[section] = parseInt(event.target.value);
         setCharacter(newChar);
     }
-    function handleAbilityChange(event, ability) {
+    function handleToggleChange(value, section) {
         let newChar = {...character};
-        newChar.abilities[ability] = parseInt(event.target.value);
+        newChar[section] = value;
         setCharacter(newChar);
     }
     // specific change handlers 
+    function handleAbilityChange(event, ability) {
+        let newChar = {...character};
+        let newScore = parseInt(event.target.value);
+        newChar.abilityScores[ability] = newScore;
+        newChar.abilityModifiers[ability] = props.getModifier(newScore, abilityScores, abilityModifiers);
+        setCharacter(newChar);
+    }
+    function handleSavingThrowChange(event, ability) {
+        let newChar = {...character};
+        newChar.savingThrowBonus[ability] = parseInt(event.target.value);
+        setCharacter(newChar);
+    }
+    function handleSavingThrowProficiencyChange(elementId, whichThrow) {
+        const element = document.getElementById(elementId); 
+        let newChar = {...character};
+        newChar.savingThrowProficiency[whichThrow] = element.checked;
+        setCharacter(newChar);
+    }
     function addClassToList(className, classLevel) {
         let newChar = {...character};
         newChar.class.push({
@@ -89,15 +134,23 @@ export function DnD(props) {
                 <LineText inputName="alignment" inputLabel="Alignment" inputValue={character.alignment} inputOnChange={(e) => handleTextChange(e, "alignment")} />
             </section>
             <section id="abilities" className="sheet-section">
-                <Ability handleAbilityChange={(e) => handleAbilityChange(e, "str")} abilityVals={abilityScores} abilityMods={abilityModifiers} score={character.abilities.str} ability="Strength" abbr="str" getModifier={() => props.getModifier(character.abilities.str, abilityScores, abilityModifiers)} min={1} max={30} />
-                <Ability handleAbilityChange={(e) => handleAbilityChange(e, "dex")} abilityVals={abilityScores} abilityMods={abilityModifiers} score={character.abilities.dex} ability="Dexterity" abbr="dex" getModifier={() => props.getModifier(character.abilities.dex, abilityScores, abilityModifiers)} min={1} max={30} />
-                <Ability handleAbilityChange={(e) => handleAbilityChange(e, "con")} abilityVals={abilityScores} abilityMods={abilityModifiers} score={character.abilities.con} ability="Constitution" abbr="con" getModifier={() => props.getModifier(character.abilities.con, abilityScores, abilityModifiers)} min={1} max={30} />
-                <Ability handleAbilityChange={(e) => handleAbilityChange(e, "int")} abilityVals={abilityScores} abilityMods={abilityModifiers} score={character.abilities.int} ability="Intelligence" abbr="int" getModifier={() => props.getModifier(character.abilities.int, abilityScores, abilityModifiers)} min={1} max={30} />
-                <Ability handleAbilityChange={(e) => handleAbilityChange(e, "wis")} abilityVals={abilityScores} abilityMods={abilityModifiers} score={character.abilities.wis} ability="Wisdom" abbr="wis" getModifier={() => props.getModifier(character.abilities.wis, abilityScores, abilityModifiers)} min={1} max={30} />
-                <Ability handleAbilityChange={(e) => handleAbilityChange(e, "cha")} abilityVals={abilityScores} abilityMods={abilityModifiers} score={character.abilities.cha} ability="Charisma" abbr="cha" getModifier={() => props.getModifier(character.abilities.cha, abilityScores, abilityModifiers)} min={1} max={30} />
+                <Ability handleAbilityChange={(e) => handleAbilityChange(e, "str")} score={character.abilityScores.str} modifier={character.abilityModifiers.str} ability="Strength" abbr="str" min={1} max={30} />
+                <Ability handleAbilityChange={(e) => handleAbilityChange(e, "dex")} score={character.abilityScores.dex} modifier={character.abilityModifiers.dex} ability="Dexterity" abbr="dex" min={1} max={30} />
+                <Ability handleAbilityChange={(e) => handleAbilityChange(e, "con")} score={character.abilityScores.con} modifier={character.abilityModifiers.con} ability="Constitution" abbr="con" min={1} max={30} />
+                <Ability handleAbilityChange={(e) => handleAbilityChange(e, "int")} score={character.abilityScores.int} modifier={character.abilityModifiers.int} ability="Intelligence" abbr="int" min={1} max={30} />
+                <Ability handleAbilityChange={(e) => handleAbilityChange(e, "wis")} score={character.abilityScores.wis} modifier={character.abilityModifiers.wis} ability="Wisdom" abbr="wis" min={1} max={30} />
+                <Ability handleAbilityChange={(e) => handleAbilityChange(e, "cha")} score={character.abilityScores.cha} modifier={character.abilityModifiers.cha} ability="Charisma" abbr="cha" min={1} max={30} />
+            </section>
+            <section id="proficiency" className="sheet-section">
+                <Number inputName="proficiency-bonus" inputLabel="Proficiency Bonus" inputValue={character.proficiencyBonus} inputOnChange={(e) => handleIntegerChange(e, 'proficiencyBonus')} />
             </section>
             <section id="saving-throws" className="sheet-section">
-                
+                <CanHaveProficiency name="Strength" idname="str-saving-throw" category="saving-throw" modifier={character.abilityModifiers.str} bonus={character.savingThrowBonus.str} proficiency={character.savingThrowProficiency.str} proficiencyBonus={character.proficiencyBonus} handleProficiencyChange={() => handleSavingThrowProficiencyChange('str-saving-throw-proficiency', 'str')} handleChange={(e) => handleSavingThrowChange(e, 'str')} />
+                <CanHaveProficiency name="Dexterity" idname="dex-saving-throw" category="saving-throw" modifier={character.abilityModifiers.dex} bonus={character.savingThrowBonus.dex} proficiency={character.savingThrowProficiency.dex} proficiencyBonus={character.proficiencyBonus} handleProficiencyChange={() => handleSavingThrowProficiencyChange('dex-saving-throw-proficiency', 'dex')} handleChange={(e) => handleSavingThrowChange(e, 'dex')} />
+                <CanHaveProficiency name="Constitution" idname="con-saving-throw" category="saving-throw" modifier={character.abilityModifiers.con} bonus={character.savingThrowBonus.con} proficiency={character.savingThrowProficiency.con} proficiencyBonus={character.proficiencyBonus} handleProficiencyChange={() => handleSavingThrowProficiencyChange('con-saving-throw-proficiency', 'con')} handleChange={(e) => handleSavingThrowChange(e, 'con')} />
+                <CanHaveProficiency name="Intelligence" idname="int-saving-throw" category="saving-throw" modifier={character.abilityModifiers.int} bonus={character.savingThrowBonus.int} proficiency={character.savingThrowProficiency.int} proficiencyBonus={character.proficiencyBonus} handleProficiencyChange={() => handleSavingThrowProficiencyChange('int-saving-throw-proficiency', 'int')} handleChange={(e) => handleSavingThrowChange(e, 'int')} />
+                <CanHaveProficiency name="Wisdom" idname="wis-saving-throw" category="saving-throw" modifier={character.abilityModifiers.wis} bonus={character.savingThrowBonus.wis} proficiency={character.savingThrowProficiency.wis} proficiencyBonus={character.proficiencyBonus} handleProficiencyChange={() => handleSavingThrowProficiencyChange('wis-saving-throw-proficiency', 'wis')} handleChange={(e) => handleSavingThrowChange(e, 'wis')} />
+                <CanHaveProficiency name="Charisma" idname="cha-saving-throw" category="saving-throw" modifier={character.abilityModifiers.cha} bonus={character.savingThrowBonus.cha} proficiency={character.savingThrowProficiency.cha} proficiencyBonus={character.proficiencyBonus} handleProficiencyChange={() => handleSavingThrowProficiencyChange('cha-saving-throw-proficiency', 'cha')} handleChange={(e) => handleSavingThrowChange(e, 'cha')} />
             </section>
         </div>
     );
