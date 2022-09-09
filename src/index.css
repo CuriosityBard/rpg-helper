@@ -1,3 +1,11 @@
 body {
   margin: 0;
+}
+
+div {
+  padding: 1em;
+  border: solid 1px black;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
 }/*# sourceMappingURL=index.css.map */
