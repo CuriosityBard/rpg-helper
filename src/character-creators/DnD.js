@@ -6,6 +6,7 @@ import { ClassList } from "./outputs/ClassList.js";
 import { Ability } from "./misc-modules/Ability.js";
 import { AbilityPlusBonus } from "./misc-modules/AbilityPlusBonus.js";
 import { CanHaveProficiency } from "./misc-modules/CanHaveProficiency.js";
+import { BaseTen } from "./misc-modules/BaseTen.js";
 
 export function DnD(props) {
     const [character, setCharacter] = useState({
@@ -48,7 +49,16 @@ export function DnD(props) {
             int: false,
             wis: false,
             cha: false
-        }
+        },
+        armorClassBonus: 0,
+        initiativeBonus: 0,
+        speed: 0,
+        hitPoints: 0,
+        currentHitPoints: 0,
+        temporaryHitPoints: 0,
+        hitDice: "", 
+        deathSaveSuccesses: 0, 
+        deathSaveFailures: 0
     });
 
     // ability scores and modifiers
@@ -151,6 +161,19 @@ export function DnD(props) {
                 <CanHaveProficiency name="Intelligence" idname="int-saving-throw" category="saving-throw" modifier={character.abilityModifiers.int} bonus={character.savingThrowBonus.int} proficiency={character.savingThrowProficiency.int} proficiencyBonus={character.proficiencyBonus} handleProficiencyChange={() => handleSavingThrowProficiencyChange('int-saving-throw-proficiency', 'int')} handleChange={(e) => handleSavingThrowChange(e, 'int')} />
                 <CanHaveProficiency name="Wisdom" idname="wis-saving-throw" category="saving-throw" modifier={character.abilityModifiers.wis} bonus={character.savingThrowBonus.wis} proficiency={character.savingThrowProficiency.wis} proficiencyBonus={character.proficiencyBonus} handleProficiencyChange={() => handleSavingThrowProficiencyChange('wis-saving-throw-proficiency', 'wis')} handleChange={(e) => handleSavingThrowChange(e, 'wis')} />
                 <CanHaveProficiency name="Charisma" idname="cha-saving-throw" category="saving-throw" modifier={character.abilityModifiers.cha} bonus={character.savingThrowBonus.cha} proficiency={character.savingThrowProficiency.cha} proficiencyBonus={character.proficiencyBonus} handleProficiencyChange={() => handleSavingThrowProficiencyChange('cha-saving-throw-proficiency', 'cha')} handleChange={(e) => handleSavingThrowChange(e, 'cha')} />
+            </section>
+            <section id="basic-stats" className="sheet-section">
+                {/* TODO: fix armor class to accept different levels of dex bonus */}
+                <BaseTen name="armor-class" label="Armor Class" bonus={character.armorClassBonus} abilityModifier={character.abilityModifiers.dex} handleBonusChange={(e) => handleIntegerChange(e, "armorClassBonus")} />
+                <AbilityPlusBonus modifier={character.abilityModifiers.dex} bonus={character.initiativeBonus} name="Initiative" idname="initiative" handleChange={(e) => handleIntegerChange(e, "initiativeBonus")} />
+                <Number inputName="speed" inputLabel="Speed" inputValue={character.speed} inputOnChange={(e) => handleIntegerChange(e, 'speed')} />
+                <div id="hit-points-section">
+                    <Number inputName="hit-points" inputLabel="Hit Points" inputValue={character.hitPoints} inputOnChange={(e) => handleIntegerChange(e, 'hitPoints')} />
+                    <Number inputName="current-hit-points" inputLabel="Current Hit Points" inputValue={character.currentHitPoints} inputOnChange={(e) => handleIntegerChange(e, 'currentHitPoints')} />
+                    <Number inputName="temporary-hit-points" inputLabel="Temporary Hit Points" inputValue={character.temporaryHitPoints} inputOnChange={(e) => handleIntegerChange(e, 'temporaryHitPoints')} />
+                    <LineText inputName="hit-dice" inputLabel="Hit Dice" inputValue={character.hitDice} inputOnChange={(e) => handleTextChange(e, "hitDice")} />
+                    {/* TODO: add death saves */}
+                </div>
             </section>
         </div>
     );
