@@ -10,7 +10,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="dice" element={<DicePage />} />
           <Route path="charcreate" element={<CharacterCreator />} />
         </Route>
       </Routes>
