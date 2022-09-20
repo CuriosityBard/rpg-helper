@@ -9,7 +9,7 @@ export function CanHaveProficiency(props) {
         <div id={props.idname} className={props.category}>
             <h4>{props.name}</h4>
             <Number inputName={props.idname + "-score"} inputLabel="Bonus" inputValue={props.bonus} inputOnChange={props.handleChange} min={props.min} max={props.max} />
-            <Toggle name={props.idname + '-proficiency'} handleChange={props.handleProficiencyChange} />
+            <Toggle name={props.idname + '-proficiency'} handleChange={props.handleProficiencyChange} label="Proficiency" />
             <Modifier modifier={total} />
         </div>
     );

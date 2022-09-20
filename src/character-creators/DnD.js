@@ -7,6 +7,7 @@ import { Ability } from "./misc-modules/Ability.js";
 import { AbilityPlusBonus } from "./misc-modules/AbilityPlusBonus.js";
 import { CanHaveProficiency } from "./misc-modules/CanHaveProficiency.js";
 import { BaseTen } from "./misc-modules/BaseTen.js";
+import { DeathSaves } from "./misc-modules/DeathSaves.js";
 
 export function DnD(props) {
     const [character, setCharacter] = useState({
@@ -57,8 +58,8 @@ export function DnD(props) {
         currentHitPoints: 0,
         temporaryHitPoints: 0,
         hitDice: "", 
-        deathSaveSuccesses: 0, 
-        deathSaveFailures: 0
+        deathSaveSuccesses: [false, false, false], 
+        deathSaveFailures: [false, false, false]
     });
 
     // ability scores and modifiers
@@ -125,6 +126,23 @@ export function DnD(props) {
         }
         setCharacter(newChar);        
     }
+    function updateDeathSaveToggle(which, num) {
+        let newChar = {...character};
+        if (which === "success") {
+            newChar.deathSaveSuccesses = [...character.deathSaveSuccesses];
+            newChar.deathSaveSuccesses[num] = !character.deathSaveSuccesses[num];
+        } else {
+            newChar.deathSaveFailures = [...character.deathSaveFailures];
+            newChar.deathSaveFailures[num] = !character.deathSaveFailures[num];
+        }
+        setCharacter(newChar);
+    }
+    function updateSuccessfulDeathSave(num) {
+        updateDeathSaveToggle('success', num);
+    }
+    function updateFailedDeathSave(num) {
+        updateDeathSaveToggle('failure', num);
+    }
 
     // update sheet immediately when character changes
     useEffect(() => {
@@ -172,7 +190,13 @@ export function DnD(props) {
                     <Number inputName="current-hit-points" inputLabel="Current Hit Points" inputValue={character.currentHitPoints} inputOnChange={(e) => handleIntegerChange(e, 'currentHitPoints')} />
                     <Number inputName="temporary-hit-points" inputLabel="Temporary Hit Points" inputValue={character.temporaryHitPoints} inputOnChange={(e) => handleIntegerChange(e, 'temporaryHitPoints')} />
                     <LineText inputName="hit-dice" inputLabel="Hit Dice" inputValue={character.hitDice} inputOnChange={(e) => handleTextChange(e, "hitDice")} />
-                    {/* TODO: add death saves */}
+                    <div id="death-saves">
+                        <h4>Death Saves:</h4>
+                        <p>Success:</p>
+                        <DeathSaves saves={character.deathSaveSuccesses} type="successful" handleChange={(num) => updateSuccessfulDeathSave(num)} />
+                        <p>Failure:</p>
+                        <DeathSaves saves={character.deathSaveFailures} type="failing" handleChange={(num) => updateFailedDeathSave(num)} />
+                    </div>
                 </div>
             </section>
         </div>
